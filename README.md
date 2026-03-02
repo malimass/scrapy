@@ -42,3 +42,43 @@ streamlit run scraper_browser_app.py
 ```
 
 Poi apri `http://localhost:8501`.
+
+## Risoluzione errore GitHub: "Can’t automatically merge"
+
+Se in GitHub vedi il messaggio **"Can’t automatically merge"**, significa che il tuo branch e il branch di destinazione (di solito `main`) hanno modificato le stesse righe.
+
+### Opzione 1 (consigliata): risolvi da command line
+
+```bash
+git fetch origin
+git checkout <tuo-branch>
+git merge origin/main
+```
+
+Se compaiono conflitti:
+1. Apri i file con marker `<<<<<<<`, `=======`, `>>>>>>>`.
+2. Tieni il contenuto corretto.
+3. Poi esegui:
+
+```bash
+git add .
+git commit -m "Resolve merge conflicts with main"
+git push origin <tuo-branch>
+```
+
+A questo punto GitHub ricalcola la PR e il merge automatico torna disponibile.
+
+### Opzione 2: risolvi da web editor GitHub
+
+Quando GitHub mostra il bottone **Resolve conflicts**:
+1. Clicca **Resolve conflicts**.
+2. Modifica il file conflittuale.
+3. Clicca **Mark as resolved**.
+4. Crea il commit di risoluzione dal browser.
+
+### Verifica rapida locale prima del push
+
+```bash
+python -m unittest discover -s tests -v
+python -m py_compile sgr_batterie_scraper.py scraper_browser_app.py
+```
