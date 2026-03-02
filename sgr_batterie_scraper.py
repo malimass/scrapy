@@ -171,13 +171,22 @@ def parse_product(html: str, product_url: str) -> BatteryProduct | None:
     )
 
 
+<<<<<<< codex/create-scraper-for-battery-data-9kxs3e
 def iter_battery_products(session: requests.Session, search_url: str, timeout: int = 30) -> Iterator[BatteryProduct]:
     search_html = fetch(session, search_url, timeout=timeout)
+=======
+def iter_battery_products(session: requests.Session, search_url: str) -> Iterator[BatteryProduct]:
+    search_html = fetch(session, search_url)
+>>>>>>> main
     candidate_links = extract_product_links(search_html, search_url)
 
     for link in candidate_links:
         try:
+<<<<<<< codex/create-scraper-for-battery-data-9kxs3e
             html = fetch(session, link, timeout=timeout)
+=======
+            html = fetch(session, link)
+>>>>>>> main
             product = parse_product(html, link)
             if product:
                 yield product
@@ -213,11 +222,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", dest="output_csv", default="batterie_sgr.csv", help="File CSV output")
     parser.add_argument("--output-json", dest="output_json", default="", help="File JSON output opzionale")
     parser.add_argument("--timeout", type=int, default=30, help="Timeout richieste HTTP in secondi")
+<<<<<<< codex/create-scraper-for-battery-data-9kxs3e
     parser.add_argument(
         "--no-proxy",
         action="store_true",
         help="Disabilita l'uso delle variabili proxy di sistema per le richieste HTTP",
     )
+=======
+>>>>>>> main
     return parser.parse_args()
 
 
@@ -225,10 +237,15 @@ def main() -> None:
     args = parse_args()
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
+<<<<<<< codex/create-scraper-for-battery-data-9kxs3e
     if args.no_proxy:
         session.trust_env = False
 
     products = list(iter_battery_products(session, args.search_url, timeout=args.timeout))
+=======
+
+    products = list(iter_battery_products(session, args.search_url))
+>>>>>>> main
     rows = flatten_products(products)
 
     output_csv = Path(args.output_csv) if args.output_csv else None
